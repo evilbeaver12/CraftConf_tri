@@ -14,8 +14,8 @@
 
 package main
 
-import "github.com/tri/cmd"
+import "github.com/evilbeaver12/tri/cmd"
 
 func main() {
-	cmd.Execute()
+    cmd.Execute()
 }

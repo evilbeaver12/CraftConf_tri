@@ -1,7 +1,7 @@
 package todo
 
 import (
-    fmt
+    "io/ioutil"
     "encoding/json"
 )
 
@@ -15,7 +15,10 @@ func SaveItems(filename string, items []Item) error {
         return err
     }
 
-    fmt.Println(string(b))
+    err = ioutil.WriteFile(filename, b, 0644)
+    if err != nil {
+        return err
+    }
 
     return nil
 }

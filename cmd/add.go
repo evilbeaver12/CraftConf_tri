@@ -15,43 +15,42 @@
 package cmd
 
 import (
-	"fmt"
+    "fmt"
 
-	"github.com/spf13/cobra"
-	"github.com/tri/todo"
+    "github.com/spf13/cobra"
+    "github.com/evilbeaver12/tri/todo"
 )
 
 // addCmd represents the add command
 var addCmd = &cobra.Command {
-	Use:   "add",
-	Short: "Add a new TODO",
-	Long: `Add will create a new TODO item to the list`,
-	Run: addRun,
+    Use:   "add",
+    Short: "Add a new TODO",
+    Long: `Add will create a new TODO item to the list`,
+    Run: addRun,
 }
 
 func addRun(cmd *cobra.Command, args []string) {
-	items := []todo.Item{}
-	for _, x := range args {
-		items = append(items, todo.Item{Text:x})
-	}
-
-	err := todo.SaveItems("c:\\Users\\EvilBeaver\\Code\\Go\\src\\github.com\\tri\\", items)
-	if err != nil {
-		fmt.Errorf("%v", err)
-	}
+    items := []todo.Item{}
+    for _, x := range args {
+        items = append(items, todo.Item{Text:x})
+    }
+    err := todo.SaveItems("c:\\Users\\EvilBeaver\\Code\\Go\\src\\github.com\\evilbeaver12\\tri\\tridos.json", items)
+    if err != nil {
+        fmt.Errorf("%v", err)
+    }
 }
 
 func init() {
-	RootCmd.AddCommand(addCmd)
+    RootCmd.AddCommand(addCmd)
 
-	// Here you will define your flags and configuration settings.
+    // Here you will define your flags and configuration settings.
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
+    // Cobra supports Persistent Flags which will work for this command
+    // and all subcommands, e.g.:
+    // addCmd.PersistentFlags().String("foo", "", "A help for foo")
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+    // Cobra supports local flags which will only run when this command
+    // is called directly, e.g.:
+    // addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 }
