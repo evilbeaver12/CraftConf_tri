@@ -19,6 +19,7 @@ import (
     "log"
     "os"
     "text/tabwriter"
+    "sort"
 
     "github.com/spf13/cobra"
     "github.com/evilbeaver12/tri/todo"
@@ -52,6 +53,8 @@ func listRun(cmd *cobra.Command, args []string) {
     if err != nil {
         log.Printf("%v", err)
     }
+
+    sort.Sort(sort.Reverse(todo.ByPri(items)))
 
     w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
     for _, i := range items {
