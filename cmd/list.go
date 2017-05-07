@@ -17,6 +17,8 @@ package cmd
 import (
     "fmt"
     "log"
+    "os"
+    "text/tabwriter"
 
     "github.com/spf13/cobra"
     "github.com/evilbeaver12/tri/todo"
@@ -25,21 +27,9 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
     Use:   "list",
-    Short: "A brief description of your command",
-    Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-    Run: func(cmd *cobra.Command, args []string) {
-        items, err := todo.ReadItems("c:\\Users\\EvilBeaver\\Code\\Go\\src\\github.com\\evilbeaver12\\tri\\tridos.json")
-
-        if err != nil {
-            log.Printf("%v", err)
-        }
-        fmt.Println(items)
-    },
+    Short: "List the todos",
+    Long: `Listing the todos`,
+    Run: listRun,
 }
 
 func init() {
@@ -55,4 +45,17 @@ func init() {
     // is called directly, e.g.:
     // listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
+}
+
+func listRun(cmd *cobra.Command, args []string) {
+    items, err := todo.ReadItems(dataFile)
+    if err != nil {
+        log.Printf("%v", err)
+    }
+
+    w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
+    for _, i := range items {
+        fmt.Fprintln(w, i.PrettyP()+"\t"+i.Text+"\t")
+    }
+    w.Flush()
 }

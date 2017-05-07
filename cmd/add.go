@@ -30,16 +30,20 @@ var addCmd = &cobra.Command {
     Run: addRun,
 }
 
+var priority int
+
 func addRun(cmd *cobra.Command, args []string) {
-    items, err := todo.ReadItems("c:\\Users\\EvilBeaver\\Code\\Go\\src\\github.com\\evilbeaver12\\tri\\tridos.json")
+    items, err := todo.ReadItems(dataFile)
     if err != nil {
         log.Printf("%v", err)
     }
     for _, x := range args {
-        items = append(items, todo.Item{Text:x})
+        item := todo.Item{Text: x}
+        item.SetPriority(priority)
+        items = append(items, item)
     }
 
-    err = todo.SaveItems("c:\\Users\\EvilBeaver\\Code\\Go\\src\\github.com\\evilbeaver12\\tri\\tridos.json", items)
+    err = todo.SaveItems(dataFile, items)
     if err != nil {
         fmt.Errorf("%v", err)
     }
@@ -49,6 +53,8 @@ func init() {
     RootCmd.AddCommand(addCmd)
 
     // Here you will define your flags and configuration settings.
+
+    addCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Priority:1,2,3")
 
     // Cobra supports Persistent Flags which will work for this command
     // and all subcommands, e.g.:
